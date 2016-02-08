@@ -7,7 +7,7 @@ var map,
 	position,
 	infowindow,
 	service,
-  ukText = '<i class="material-icons">&#xE55C;</i>';
+  text = '<i class="material-icons">&#xE55C;</i>';
 function CenterControl(controlDiv, map, text) {
 	// Set CSS for the control border.
     var controlUI = document.createElement('div');
@@ -44,9 +44,8 @@ function initialize(controlDiv) {
 	geoLocation();
   var centerControlDiv = document.createElement('div');
   centerControlDiv.className="control";
-  var centerControl = new CenterControl(centerControlDiv, map, ukText, uk);
-  centerControlDiv.index = 1;
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+  var centerControl = new CenterControl(centerControlDiv, map, text);
 }
 // if geo location, locate
 function geoLocation() {
@@ -101,7 +100,7 @@ function handleNoGeolocation(errorFlag) {
 function loadNearby(position){
 	service.nearbySearch({
     location: position,
-    radius: 5000,
+    radius: 50000,
     types: ['museum']
   }, callback);
 }
@@ -120,17 +119,16 @@ function createMarker(place) {
 	    origin: new google.maps.Point(0, 0),
 	    anchor: new google.maps.Point(16, 32)
 	};  
-  var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location,
     animation: google.maps.Animation.DROP,
+    time: randomNum(),
+    title: place.name,
     icon: image
   });
-  markers.push(marker)
-  // console.log(place)
+  markers.push(marker);
   google.maps.event.addListener(marker, 'click', function() {
-  	// console.log(place);
   	if (place.opening_hours == undefined) {
   		content = "<div><b>"+place.name+"</b></div> <i>Click here to add to schedule</i>"
   	} else if(place.opening_hours != undefined && place.opening_hours.open_now == true) {
@@ -144,5 +142,29 @@ function createMarker(place) {
   google.maps.event.addListener(marker, 'dblclick', function() {
   	addPlaceToBasket(place);
   });
+}
+function randomNum(){
+	return Math.floor(Math.random() * (9 - 1)) + 1;
+}
+function changeRange(){
+	var range = document.getElementById('range').value;
+	document.getElementById('inner-hours').innerHTML = range+ " hours";
+	filterMarkers(range);
+}
+function filterMarkers(range){
+	$(".pick-container").empty();
+	for (var i = 0; i < markers.length; i++) {
+		if (markers[i].time > range) {
+			markers[i].setVisible(false);
+		} else {
+			fillChecklist(markers[i], i);
+			markers[i].setVisible(true);
+		}
+	}
+}
+function fillChecklist(marker, i){
+	console.log(marker);
+	var text = "<div class='option container-"+i+"'<input type='checkbox' id='checkbox-"+i+"' value='"+marker.time+"'><span class='title'>"+marker.title+"</span><span class='time'>Estimated time: "+marker.time+"</span></div>";
+	$(".pick-container").append(text);
 }
 google.maps.event.addDomListener(window, "load", initialize);

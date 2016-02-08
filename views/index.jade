@@ -1,8 +1,18 @@
 extends layout
 
 block content
-  #map.map
-  input(type="text" id="search")
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCFcci8CR94IEtVcWnMAilWEOyaBigoQEk&libraries=places,visualization')
-  script(src='/javascripts/init.js')
+	.small-8.container.columns
+			#map.map
+	.small-4.container.columns.control-room
+			.controls
+				span.title How many hours do you have available?
+				.range
+					span 1
+					input(type="range" id="range" min="1" max="12" onchange="changeRange()")
+					span 12
+					span#inner-hours
+			#pick.pick-container
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+	script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js")
+	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCFcci8CR94IEtVcWnMAilWEOyaBigoQEk&libraries=places,visualization')
+	script(src='/javascripts/init.js')
