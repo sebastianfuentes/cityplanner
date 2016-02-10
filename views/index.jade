@@ -1,9 +1,10 @@
 extends layout
 
 block content
-	.small-8.container.columns
+	.large-8.medium-7.small-6.container.columns.map-container
 			#map.map
-	.small-4.container.columns.control-room
+			input(type="text" id="searchbar" class="searchbar" placeholder="Buscar lugares cerca de...")
+	.large-4.medium-5.small-6.container.columns.control-room
 			.controls
 				span.title How many hours do you have available?
 				.range
@@ -12,7 +13,7 @@ block content
 					span 12
 					span#inner-hours
 			#pick.pick-container
+
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
-	script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js")
 	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCFcci8CR94IEtVcWnMAilWEOyaBigoQEk&libraries=places,visualization')
 	script(src='/javascripts/init.js')
