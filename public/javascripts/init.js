@@ -53,6 +53,7 @@ function initialize(controlDiv) {
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
+    changeRange();
   });
 
   google.maps.event.addListenerOnce(map, 'idle', function(){
@@ -60,11 +61,9 @@ function initialize(controlDiv) {
   }); 
   searchBox.addListener('places_changed', function() {
       var places = searchBox.getPlaces();
-
       if (places.length == 0) {
         return;
       }
-
       clearMap();
       // For each place, get the icon, name and location.
       places.forEach(function(place) {
@@ -86,7 +85,6 @@ function geoLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var gpsPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      console.log(gpsPosition);
       map.panTo(gpsPosition);
       map.setZoom(14);
       if (markers.length == 0) {
@@ -108,7 +106,7 @@ function clearMap(){
 		for (var i = 0, marker; marker = markers[i]; i++) {
 		  marker.setMap(null);
 		}
-	  // markers = [];
+	  markers = [];
 	}
 }
 function handleNoGeolocation(errorFlag) {
