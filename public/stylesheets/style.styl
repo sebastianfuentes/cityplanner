@@ -23,6 +23,7 @@ body
 		i
 			display block
 			color accent
+			cursor pointer
 		.location-inside
 				color rgb(25,25,25)
 				font-family "Roboto", "Helvetica"
@@ -49,8 +50,8 @@ body
 		display block
 		background #fff
 		text-align center
-		padding 1em
-		height 7.5em
+		padding 1em 1em 0
+		height auto
 		span
 			color #444
 			font-weight normal
@@ -58,17 +59,35 @@ body
 				font-weight bold
 		.range
 			width 100%
-			padding-top 1em
+			padding 1em 0
 			span
 				vertical-align middle
 			#inner-hours
 				display block
 				width 100%
+		.select
+			display block
+			height 1em
+			position relative
+			padding 0
+			width 100%
+			height auto
+			i
+				float left 
+				margin-left 7.5%
+				color accent
+				cursor pointer
+			span
+				display block
+				text-align right
+				padding-right 1em
 	.pick-container
 		display block
 		padding 0 1em 2em
-		max-height calc(100% - 12em)
+		max-height calc(100% - 15em)
 		overflow-y auto
+		border-top 1px solid grey
+		border-bottom 1px solid grey
 		.option
 			border-bottom 1px solid grey
 			text-align right
@@ -83,6 +102,15 @@ body
 				float left 
 				margin-left 10%
 				margin-top 1.5em
+		.please
+			display block
+			position: relative
+			padding 2em 1em 0
+			text-align center
+	.result
+		display block
+		padding 1em
+		text-align right
 input[type=range]
 	margin 0 1em
 	min-width 10em

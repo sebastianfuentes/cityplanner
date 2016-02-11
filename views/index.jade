@@ -12,4 +12,11 @@ block content
 					input(type="range" id="range" min="1" max="12" onchange="changeRange()")
 					span 12
 					span#inner-hours
+				.select
+					i(id="id" class="material-icons" onclick="deleteAll(this)")	&#xE872;
+					span(id="allLabel") Select all
 			#pick.pick-container
+				.please Please select a range of hours to start
+			#result.result
+				.result-inner
+				| No attractions selected
