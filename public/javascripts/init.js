@@ -190,10 +190,17 @@ function filterMarkers(range){
 }
 function fillChecklist(marker, i){
 	var text;
+	if (marker.title.length > 20 && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || $("body").width() < 650)) {
+		marker.title = marker.title.substring(0,15) + "..."
+		console.log('test');
+	} else if (marker.title.length > 30) {
+		marker.title = marker.title.substring(0,30) + "..."
+		console.log('test');
+	}
 	if (marker.checked) {
-		text = "<div onclick='checkCheckbox(this)' class='option container-"+i+"'><input onchange='addThisToList(this,event)' checked type='checkbox' id='"+marker.id+"' value='"+marker.time+"'><span class='title'>"+marker.title+"</span><span class='time'>Estimated time: "+marker.time+"</span></div>";
+		text = "<div class='option container-"+i+"'><input onchange='addThisToList(this,event)' checked type='checkbox' id='"+marker.id+"' value='"+marker.time+"'><span class='title'>"+marker.title+"</span><span class='time'>Estimated time: "+marker.time+"</span></div>";
 	} else {
-		text = "<div onclick='checkCheckbox(this)' class='option container-"+i+"'><input onchange='addThisToList(this,event)' type='checkbox' id='"+marker.id+"' value='"+marker.time+"'><span class='title'>"+marker.title+"</span><span class='time'>Estimated time: "+marker.time+"</span></div>";
+		text = "<div class='option container-"+i+"'><input onchange='addThisToList(this,event)' type='checkbox' id='"+marker.id+"' value='"+marker.time+"'><span class='title'>"+marker.title+"</span><span class='time'>Estimated time: "+marker.time+"</span></div>";
 	}
 	$(".pick-container").append(text);
 }
@@ -278,13 +285,5 @@ function addThisToListFromMap(marker){
 			}
 		}
 	}
-}
-function checkCheckbox(e){
-	// var input = e.getElementsByTagName("input")[0];
-	// if (!input.checked) {
-	// 	input.setAttribute("checked", "checked");
-	// } else{
-	// 	input.removeAttribute("checked");
-	// }
 }
 google.maps.event.addDomListener(window, "load", initialize);
