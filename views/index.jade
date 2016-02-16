@@ -5,18 +5,24 @@ block content
 			#map.map
 			input(type="text" id="searchbar" class="searchbar" placeholder="Buscar lugares cerca de...")
 	.large-4.medium-5.small-6.container.columns.control-room
-			.controls
-				span.title How many hours do you have available?
-				.range
-					span 1
-					input(type="range" id="range" min="1" max="12" onchange="changeRange()")
-					span 12
-					span#inner-hours
-				.select
-					i(id="id" class="material-icons" onclick="deleteAll(this)")	&#xE872;
-					span(id="allLabel") Select all
-			#pick.pick-container
-				.please Please select a range of hours to start
-			#result.result
-				.result-inner
-				| No attractions selected
+		.controls
+			span.title How many hours do you have available?
+			.range
+				span 1
+				input(type="range" id="range" min="1" max="12" onchange="changeRange()")
+				span 12
+				span#inner-hours
+			.select
+				i(id="id" class="material-icons" onclick="deleteAll(this)")	&#xE872;
+				span(id="allLabel") Select all
+		#pick.pick-container
+			.please Please select a range of hours to start
+		#result.result
+			.result-inner No attractions selected
+	#mail.large-4.medium-5.small-6.container.columns.send-mail
+		.controls
+			span.title Please fill the enquiry to send your schedule
+			.form
+				input(type="text" autocomplete="off" id="name" class="input" required placeholder="Name and surname...")
+				input(type="mail" id="email" class="input" required placeholder="example@exampleaddress.com")
+				input(type="submit" value="Send" class="send" onclick="mailOptions()")

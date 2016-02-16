@@ -154,7 +154,8 @@ function createMarker(place) {
     id: place.id,
     checked: false,
     selected: false, 
-    icon: image
+    icon: image,
+    directions: place.vicinity
   });
   markers.push(marker);
   google.maps.event.addListener(marker, 'click', function() {
@@ -210,7 +211,6 @@ function fillChecklist(marker, clear){
 	$(".pick-container").append(text);
 }
 function addThisToList(el,ev){
-	console.log('test3');
 	var imageBlue = {
 	    url: "../images/marker-blue.svg",
 	    scaledSize: new google.maps.Size(32, 32),
@@ -244,9 +244,9 @@ function addThisToList(el,ev){
 		}
 		hours += value;
 		if (hours >= range) {
-			document.getElementById("result").innerHTML = "<div class='result-inner'> Please select less places or more hours</div>";
+			document.getElementById("result").innerHTML = "<div class='print'><input onclick='showMailOption()' type='submit' id='send' value='Mail your choices' /></div><div class='result-inner'> Please select less places or more hours</div>";
 		}else{
-			document.getElementById("result").innerHTML = "<div class='result-inner'> Total of hours: <b>"+hours+"</b></div>";
+			document.getElementById("result").innerHTML = "<div class='print'><input onclick='showMailOption()' type='submit' id='send' value='Mail your choices' /></div><div class='result-inner'> Total of hours: <b>"+hours+"</b></div>";
 		}
 	} else {
 		for (var i = 0; i < markers.length; i++) {
@@ -257,15 +257,44 @@ function addThisToList(el,ev){
 			}
 		}
 		hours -= value;
-		document.getElementById("result").innerHTML = "<div class='result-inner'> Total of hours: <b>"+hours+"</b></div>";
+		document.getElementById("result").innerHTML = "<div class='print'><input onclick='showMailOption()' type='submit' id='send' value='Mail your choices' /></div><div class='result-inner'> Total of hours: <b>"+hours+"</b></div>";
 	}
 }
 function deleteAll(elem){
+	var image = {
+	    url: "../images/marker.svg",
+	    scaledSize: new google.maps.Size(32, 32),
+	    origin: new google.maps.Point(0, 0),
+	    anchor: new google.maps.Point(16, 32)
+	}; 
 	var range = document.getElementById('range').value;
 	markersSelected = [];
 	for (var i = 0; i < markers.length; i++) {
 		markers[i].checked = false;
+		markers[i].setIcon(image);
 	}
 	filterMarkers(range, true);
+}
+function showMailOption(){
+	$("#mail").addClass("visible");
+}
+function mailOptions(){
+	var i, name=document.getElementById("name").value, mail=document.getElementById("email").value;
+	// markersSelected.forEach(function(){});
+	var data = {
+		name: name,
+		mail: mail,
+		i: markersSelected.length
+	}
+	console.log(data);
+	markersSelected.forEach(function(o,i){
+		data["marker_title_"+i] = o.title;
+		data["marker_directions_"+i] = o.directions;
+	});
+	$.post("/send-options",data, function(response){
+		if (response) {
+			document.getElementById("result").innerHTML = "<div class='print'><input type='submit' id='send' value='Choices sent' /></div>";
+		}
+	});
 }
 google.maps.event.addDomListener(window, "load", initialize);
