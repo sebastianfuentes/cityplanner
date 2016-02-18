@@ -39,7 +39,8 @@ router.post('/send-options', function(req, res) {
         //create the nodemailer
         var client = nodemailer.createTransport(sgTransport({
             auth: {
-              api_key: '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'
+              api_key: process.env.TURN_SENDGRID_KEY
+
             }
         }));
 
