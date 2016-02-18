@@ -3,11 +3,11 @@ div(style='box-shadow: 0 3px 15px rgba(0,0,0,0.3);height: 100%;width: 100%;margi
 		div(style='display: block;background: #f7eebb;width: 100%;')
 			link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css')
 			link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
-			div(style='display: block;font-size: 1.5em;text-align: center;color: #333;font-weight: bold;padding: 2em 1em 0;')	Hello #{data.name},
+			div(style='display: block;font-size: 1.5em;text-align: center;color: #333;font-weight: bold;padding: 2em 1em 0;')	Hello #{name},
 			div(style='text-align: left;font-size: .9em;padding: 1em;color: #333;')
 				| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic laudantium harum recusandae voluptatibus, similique blanditiis officia! Porro asperiores quia nihil quo commodi harum aspernatur a, nam optio nesciunt voluptas cumque.
 		ul(style='display: block;width: 100%;margin: 0;padding: 0;')
-			each val in data.selected
+			each val in selected
 				li(style='list-style: none;display: block;height: auto;width: 100%;padding: 1em 0;')
 					div(style='display: block;')
 						div(style='display: inline-block;width: calc(100% - 15em);padding: 0 1em;')

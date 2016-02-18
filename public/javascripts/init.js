@@ -295,12 +295,12 @@ function mailOptions(){
 		// data["marker_directions_"+i] = o.directions;
 		arr.push(marker)	
 	});
+	arr = JSON.stringify(arr);
 	var data = {
 		name: name,
 		mail: mail,
 		selected: arr
 	}
-	data = JSON.stringify(data);
 	$.post("/send-options",data, function(response){
 		if (response) {
 			document.getElementById("result").innerHTML = "<div class='print'><input type='submit' id='send' value='Choices sent' /></div>";

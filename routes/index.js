@@ -27,15 +27,20 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'City Guide' });
 });
 router.post('/send-options', function(req, res) {
-    var data = req.body;
-    // console.log(data);
-	res.render('schedule', { data: data }, function(err, html){
+    var data = {
+        request: req.body,
+        name: req.body.name,
+        mail: req.body.mail,
+        selected: JSON.parse(req.body.selected)
+    };
+    res.render('schedule', { name: data.name, selected: data.selected }, function(err, html){
         if (!data.name || !data.email) {
-        	res.send(true);
+            res.send(true);
         } else {
-        	res.send(false);
+            res.send(false);
         }
-        console.log(data.name, data.mail);
+        console.log(html);
+        console.log(err);
         //create the nodemailer
         var client = nodemailer.createTransport(sgTransport({
             auth: {
