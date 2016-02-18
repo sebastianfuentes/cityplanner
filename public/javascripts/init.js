@@ -65,6 +65,7 @@ function initialize(controlDiv) {
       if (places.length == 0) {
         return;
       }
+      deleteAll();
       clearMap();
       // For each place, get the icon, name and location.
       places.forEach(function(place) {
@@ -73,6 +74,8 @@ function initialize(controlDiv) {
         map.panTo(position);
         map.setZoom(14);
       });
+      $(".pick-container").empty();
+      $(".pick-container").append("<div class='please'>Please drag the map or change the range of hours to refresh the map</div>");
     });
 }
 // if geo location, locate
@@ -182,7 +185,7 @@ function changeRange(){
 function filterMarkers(range, clear){
 	if (markers.length > 0) {
 	$(".pick-container").empty();
-		for (var i = 0; i < markers.length; i++) {
+		for (var i = 0; i < markers.length; i++) {	
 			if (markers[i].time > range) {
 				markers[i].setVisible(false);
 			} else {
@@ -260,13 +263,14 @@ function addThisToList(el,ev){
 		document.getElementById("result").innerHTML = "<div class='print'><input onclick='showMailOption()' type='submit' id='send' value='Mail your choices' /></div><div class='result-inner'> Total of hours: <b>"+hours+"</b></div>";
 	}
 }
-function deleteAll(elem){
+function deleteAll(){
 	var image = {
 	    url: "../images/marker.svg",
 	    scaledSize: new google.maps.Size(32, 32),
 	    origin: new google.maps.Point(0, 0),
 	    anchor: new google.maps.Point(16, 32)
 	}; 
+	hours = 0;
 	var range = document.getElementById('range').value;
 	markersSelected = [];
 	for (var i = 0; i < markers.length; i++) {
@@ -274,9 +278,16 @@ function deleteAll(elem){
 		markers[i].setIcon(image);
 	}
 	filterMarkers(range, true);
+	document.getElementById("result").innerHTML = "<div class='result-inner'>No attractions selected</div>";
 }
 function showMailOption(){
-	$("#mail").addClass("visible");
+	if (markersSelected > 0) {
+		$("#mail").addClass("visible");
+	}
+}
+function hideMailOption(){
+	$("#mail").removeClass("visible");
+	document.getElementById("mail-options").innerHTML = "<input type='submit' class='send' id='send' value='Send' onclick='mailOptions()' />"
 }
 function mailOptions(){
 	var i, name=document.getElementById("name").value, mail=document.getElementById("email").value, arr = [];
@@ -291,8 +302,6 @@ function mailOptions(){
 			},
 			time: o.time
 		}
-		// data["marker_title_"+i] = o.title;
-		// data["marker_directions_"+i] = o.directions;
 		arr.push(marker)	
 	});
 	arr = JSON.stringify(arr);
@@ -303,7 +312,7 @@ function mailOptions(){
 	}
 	$.post("/send-options",data, function(response){
 		if (response) {
-			document.getElementById("result").innerHTML = "<div class='print'><input type='submit' id='send' value='Choices sent' /></div>";
+			document.getElementById("mail-options").innerHTML = "<input type='submit' class='send' id='send' value='Choices sent' />";
 		}
 	});
 }

@@ -13,7 +13,7 @@ block content
 				span 12
 				span#inner-hours
 			.select
-				i(id="id" class="material-icons" onclick="deleteAll(this)")	&#xE872;
+				i(id="trash" class="material-icons" onclick="deleteAll(this)")	&#xE872;
 				span(id="allLabel") Select all
 		#pick.pick-container
 			.please Please select a range of hours to start
@@ -21,8 +21,10 @@ block content
 			.result-inner No attractions selected
 	#mail.large-4.medium-5.small-6.container.columns.send-mail
 		.controls
+			i.material-icons.back(onclick="hideMailOption()") &#xE5C4;
 			span.title Please fill the enquiry to send your schedule
 			.form
 				input(type="text" autocomplete="off" id="name" class="input" required placeholder="Name and surname...")
 				input(type="mail" id="email" class="input" required placeholder="example@exampleaddress.com")
-				input(type="submit" value="Send" class="send" onclick="mailOptions()")
+				#mail-options.mail-options
+					input(type="submit" value="Send" class="send" onclick="mailOptions()")
