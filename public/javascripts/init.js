@@ -281,9 +281,9 @@ function deleteAll(){
 	document.getElementById("result").innerHTML = "<div class='result-inner'>No attractions selected</div>";
 }
 function showMailOption(){
-	if (markersSelected > 0) {
+	// if (markersSelected > 0) {
 		$("#mail").addClass("visible");
-	}
+	// }
 }
 function hideMailOption(){
 	$("#mail").removeClass("visible");
