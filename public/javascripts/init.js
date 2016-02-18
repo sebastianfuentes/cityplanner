@@ -149,13 +149,13 @@ function createMarker(place) {
     map: map,
     position: place.geometry.location,
     animation: google.maps.Animation.DROP,
-    time: randomNum(1,9),
+    time: randomNum(1,4),
     title: place.name,
     id: place.id,
     checked: false,
     selected: false, 
     icon: image,
-    directions: place.vicinity
+    address: place.vicinity
   });
   markers.push(marker);
   google.maps.event.addListener(marker, 'click', function() {
@@ -279,18 +279,28 @@ function showMailOption(){
 	$("#mail").addClass("visible");
 }
 function mailOptions(){
-	var i, name=document.getElementById("name").value, mail=document.getElementById("email").value;
-	// markersSelected.forEach(function(){});
+	var i, name=document.getElementById("name").value, mail=document.getElementById("email").value, arr = [];
+	
+	markersSelected.forEach(function(o,i){
+		var marker = {
+			title: o.title,
+			address: o.address,
+			coordinates: {
+				lat: o.position.lat(),
+				lng: o.position.lng()
+			},
+			time: o.time
+		}
+		// data["marker_title_"+i] = o.title;
+		// data["marker_directions_"+i] = o.directions;
+		arr.push(marker)	
+	});
 	var data = {
 		name: name,
 		mail: mail,
-		i: markersSelected.length
+		selected: arr
 	}
-	console.log(data);
-	markersSelected.forEach(function(o,i){
-		data["marker_title_"+i] = o.title;
-		data["marker_directions_"+i] = o.directions;
-	});
+	data = JSON.stringify(data);
 	$.post("/send-options",data, function(response){
 		if (response) {
 			document.getElementById("result").innerHTML = "<div class='print'><input type='submit' id='send' value='Choices sent' /></div>";

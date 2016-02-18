@@ -27,41 +27,41 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'City Guide' });
 });
 router.post('/send-options', function(req, res) {
-  var data = req.body;
-	res.render('index', { name: data.name, mail: data.mail }, function(err, html){
-    console.log(data);
-    if (!data.name || !data.email) {
-    	res.send(true);
-    } else {
-    	res.send(false);
-    }
-    // //create the nodemailer
-    // var client = nodemailer.createTransport(sgTransport({
-    //     auth: {
-    //       api_key: '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'
-    //     }
-    // }));
+    var data = req.body;
+    // console.log(data);
+	res.render('schedule', { data: data }, function(err, html){
+        if (!data.name || !data.email) {
+        	res.send(true);
+        } else {
+        	res.send(false);
+        }
+        console.log(data.name, data.mail);
+        //create the nodemailer
+        var client = nodemailer.createTransport(sgTransport({
+            auth: {
+              api_key: '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'
+            }
+        }));
 
-    // var mailOptions = {
-    //     to: 'hello@turninternational.co.uk',
-    //     from: data.email,
-    //     subject: "Message from "+data.name+": \n"+data.subject,
-    //     html: '<b>You have a new contact from your website</b><br /><p>'+data.message
-    // };
+        var mailOptions = {
+            to: data.mail,
+            from: 'sebastian@turninternational.co.uk',
+            subject: data.name+": your itinerary courtesy from  \n TURN international",
+            html: html
+        };
 
-    // //send
-    // client.sendMail(mailOptions, function(err, info) {
-    //     //re-render contact page with message
-    //     var message = null;
-    //     if(err){
-    //         message = "An error has occured " + err;
-    //         console.log(error);
-    //     } else {
-    //         message = "Email has been sent!";
-    //         console.log('Message sent: ' + info.response);
-    //     }
-    //     res.redirect('/');
-    //   });
+        //send
+        client.sendMail(mailOptions, function(err, info) {
+            //re-render contact page with message
+            var message = null;
+            if(err){
+                message = "An error has occured " + err;
+                console.log(err);
+            } else {
+                message = "Email has been sent!";
+                console.log('Message sent: ' + info.response);
+            }
+          });
 	});
 });
 module.exports = router;
