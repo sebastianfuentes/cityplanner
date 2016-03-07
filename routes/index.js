@@ -39,8 +39,6 @@ router.post('/send-options', function(req, res) {
         } else {
             res.send(false);
         }
-        console.log(html);
-        console.log(err);
         //create the nodemailer
         var client = nodemailer.createTransport(sgTransport({
             auth: {
@@ -52,7 +50,7 @@ router.post('/send-options', function(req, res) {
         var mailOptions = {
             to: data.mail,
             from: 'sebastian@turninternational.co.uk',
-            subject: data.name+": your itinerary courtesy from  \n TURN international",
+            subject: data.name+": your itinerary courtesy from  \n ACCOR HOTELS",
             html: html
         };
 
