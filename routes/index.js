@@ -50,7 +50,7 @@ router.post('/send-options', function(req, res) {
         var mailOptions = {
             to: data.mail,
             from: 'sebastian@turninternational.co.uk',
-            subject: data.name+": your itinerary courtesy from  \n ACCOR HOTELS",
+            subject: data.name+": your itinerary courtesy of  \n ACCOR HOTELS",
             html: html
         };
 
